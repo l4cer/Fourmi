@@ -191,8 +191,8 @@ class Colony:
             self.is_loaded[ants_at_food] = True
 
     def advance(self, the_maze, pos_food, pos_nest, pheromones, food_counter=0):
-        loaded_ants = np.nonzero(self.is_loaded is True)[0]
-        unloaded_ants = np.nonzero(self.is_loaded is False)[0]
+        loaded_ants = np.nonzero(self.is_loaded == True)[0]
+        unloaded_ants = np.nonzero(self.is_loaded == False)[0]
         if loaded_ants.shape[0] > 0:
             food_counter = self.return_to_nest(loaded_ants, pos_nest, food_counter)
         if unloaded_ants.shape[0] > 0:
@@ -213,32 +213,47 @@ class Colony:
 
 
 if __name__ == "__main__":
+    import sys
     import time
     pg.init()
     size_laby = 25, 25
+    if len(sys.argv) > 2:
+        size_laby = int(sys.argv[1]),int(sys.argv[2])
+
     resolution = size_laby[1]*8, size_laby[0]*8
     screen = pg.display.set_mode(resolution)
     nb_ants = size_laby[0]*size_laby[1]//4
     max_life = 500
+    if len(sys.argv) > 3:
+        max_life = int(sys.argv[3])
     pos_food = size_laby[0]-1, size_laby[1]-1
     pos_nest = 0, 0
     a_maze = maze.Maze(size_laby, 12345)
     ants = Colony(nb_ants, pos_nest, max_life)
     unloaded_ants = np.array(range(nb_ants))
+    alpha = 0.9
+    beta  = 0.99
+    if len(sys.argv) > 4:
+        alpha = float(sys.argv[4])
+    if len(sys.argv) > 5:
+        beta = float(sys.argv[5])
     pherom = pheromone.Pheromon(size_laby, pos_food, 0.9, 0.99)
     mazeImg = a_maze.display()
     food_counter = 0
 
     snapshop_taken = False
     while True:
+        for event in pg.event.get():
+            if event.type == pg.QUIT:
+                pg.quit()
+                exit(0)
+
         deb = time.time()
         pherom.display(screen)
         screen.blit(mazeImg, (0, 0))
         ants.display(screen)
         pg.display.update()
-        for event in pg.event.get():
-            if event.type == pg.QUIT:
-                pg.quit()
+                
         food_counter = ants.advance(a_maze, pos_food, pos_nest, pherom, food_counter)
         pherom.do_evaporation(pos_food)
         end = time.time()
