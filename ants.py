@@ -237,9 +237,10 @@ if __name__ == "__main__":
         alpha = float(sys.argv[4])
     if len(sys.argv) > 5:
         beta = float(sys.argv[5])
-    pherom = pheromone.Pheromon(size_laby, pos_food, 0.9, 0.99)
+    pherom = pheromone.Pheromon(size_laby, pos_food, alpha, beta)
     mazeImg = a_maze.display()
     food_counter = 0
+    
 
     snapshop_taken = False
     while True:
