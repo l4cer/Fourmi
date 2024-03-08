@@ -1,0 +1,14 @@
+WIDTH = 40
+HEIGHT = 40
+
+MAX_AGE = 2000
+NUM_ANTS = WIDTH * HEIGHT // 4
+
+DIR_N =  0
+DIR_E =  1
+DIR_W =  2
+DIR_S =  3
+
+ALPHA = 0.9
+BETA = 0.99
+EPSILON = 0.0
