@@ -167,4 +167,7 @@ class Colony:
             ALPHA * max_pheromones + (1 - ALPHA) * mean_pheromones
         )
 
-        return BETA * pheromones
+        pheromones = BETA * pheromones
+        pheromones[pos_food[0] + 1, pos_food[1] + 1] = 1.0
+
+        return pheromones
