@@ -46,12 +46,11 @@ def main(seed: int = 123) -> None:
     maze = Maze(WIDTH, HEIGHT)
     np.random.seed(seed * (rank + 1))
 
-    per_rank = NUM_ANTS // comp_nbp
-
-    pose = np.zeros((comp_nbp * per_rank, 3), dtype=np.int16)
-    pose[:, :2] = pos_nest.astype(np.int16)
-
+    per_rank = NUM_ANTS // (nbp - 1)
     colony = Colony(per_rank, pos_nest) if rank > 0 else None
+
+    pose = np.zeros((per_rank * (nbp - 1), 3), dtype=np.int16)
+    pose[:, :2] = pos_nest.astype(np.int16)
 
     running = True
     food_counter = 0

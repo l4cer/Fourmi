@@ -1,9 +1,13 @@
-# Fourmi2024
+# Projet fourmi
 
-Pour exécuter le code de manière séquentielle, faites :
+Pour exécuter le code de manière séquentielle, faites :
 
+```
 python sequential.py
+```
 
-Pour exécuter le code de manière paralelle, faites :
+Pour exécuter le code de manière parallèle, faites :
 
-mpiexec -np 2 python parallel.py 
+```
+mpiexec -np <num_core> python parallel.py
+```
